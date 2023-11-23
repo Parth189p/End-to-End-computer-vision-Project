@@ -1,0 +1,139 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/Facerecognition/pipeline/stage_01_data_ingetion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: c07c0f07bf849a8bbdf2d677704637b4
+      size: 906
+    - path: src/Facerecognition/components/data_ingetion.py
+      hash: md5
+      md5: 01eefc92148a145c885b6a7cf80962f5
+      size: 1248
+    - path: src/Facerecognition/config/configuration.py
+      hash: md5
+      md5: c68362cb74149cca09094ecb0bcbdf48
+      size: 4275
+    - path: src/Facerecognition/pipeline/stage_01_data_ingetion.py
+      hash: md5
+      md5: 0f4e0c01e0fa559b4f4aec775d517bca
+      size: 911
+    outs:
+    - path: artifacts/data_ingestion/Facerecognition
+      hash: md5
+      md5: 391072e7758386ba2a6d80564d7571d5.dir
+      size: 454448
+      nfiles: 46
+  data_preprocessing:
+    cmd: python src/Facerecognition/pipeline/stage_02_data_preprocess.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: c07c0f07bf849a8bbdf2d677704637b4
+      size: 906
+    - path: src/Facerecognition/pipeline/stage_02_data_preprocess.py
+      hash: md5
+      md5: 74f6548966ed966821fa6f071ec924e7
+      size: 943
+    outs:
+    - path: artifacts/data_preprocessing/preprocessed_images
+      hash: md5
+      md5: 20b1b40dca68066eb25e6433bac8cd04.dir
+      size: 231483
+      nfiles: 36
+  prepare_base_model:
+    cmd: python src/Facerecognition/pipeline/stage_03_prepare_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: c07c0f07bf849a8bbdf2d677704637b4
+      size: 906
+    - path: src/Facerecognition/pipeline/stage_03_prepare_model.py
+      hash: md5
+      md5: ed0b98773e2d8a07f41eb3e2a1cf75ac
+      size: 998
+    params:
+      params.yaml:
+        CLASSES: 4
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: f8ff2c2d4915da2ec5c94bdab405eeda.dir
+      size: 126276640
+      nfiles: 2
+  training:
+    cmd: python src/Facerecognition/pipeline/stage_04_training.py
+    deps:
+    - path: artifacts/data_preprocessing/preprocessed_images
+      hash: md5
+      md5: 20b1b40dca68066eb25e6433bac8cd04.dir
+      size: 231483
+      nfiles: 36
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: f8ff2c2d4915da2ec5c94bdab405eeda.dir
+      size: 126276640
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: c07c0f07bf849a8bbdf2d677704637b4
+      size: 906
+    - path: src/Facerecognition/components/prepare_callbacks.py
+      hash: md5
+      md5: 272155680157cd904e3b722e1f7813b0
+      size: 1053
+    - path: src/Facerecognition/pipeline/stage_04_training.py
+      hash: md5
+      md5: f040c23ec039fbca509cd6c65da6907c
+      size: 1428
+    params:
+      params.yaml:
+        BATCH_SIZE: 1
+        EPOCHES: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 299ed2834ef74c613312688d10467581
+      size: 84184416
+  evaluation:
+    cmd: python src/Facerecognition/pipeline/stage_05_evaluation.py
+    deps:
+    - path: artifacts/data_preprocessing/preprocessed_images
+      hash: md5
+      md5: 20b1b40dca68066eb25e6433bac8cd04.dir
+      size: 231483
+      nfiles: 36
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 299ed2834ef74c613312688d10467581
+      size: 84184416
+    - path: config/config.yaml
+      hash: md5
+      md5: c07c0f07bf849a8bbdf2d677704637b4
+      size: 906
+    - path: src/Facerecognition/pipeline/stage_05_evaluation.py
+      hash: md5
+      md5: cbf0cd1b951e7e837990ae744a256b6f
+      size: 907
+    params:
+      params.yaml:
+        BATCH_SIZE: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: a5c61281bb7aa588cef5451f22686c8d
+      size: 72
