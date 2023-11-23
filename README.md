@@ -87,10 +87,3 @@ python app.py
 6. Configure EC2 as self-hostged runner
 7. Setup git-hub secrets
 
-
-### Azure CI/CD Deployment with Git-hub Actions
-
-1. Build the Docker image of the Source Code
-2. Push the Docker image to Container Registry
-3. Launch the Web App Server in Azure
-4. Pull the Docker image from the container registry to Web App server and run
