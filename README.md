@@ -55,7 +55,7 @@ Follow the steps below to get started with the Face Recognition Project:
 
 ```bash
 # Clone this repository
-git clone https://github.com/Parth-cilans/Face-reg.git
+git clone https://github.com/Parth189p/End-to-End-computer-vision-Project.git
 
 # Install project dependencies
 pip install -r requirements.txt
