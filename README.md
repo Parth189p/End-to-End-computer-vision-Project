@@ -2,6 +2,7 @@
 [![Project Status: Complete](https://img.shields.io/badge/Project%20Status-Complete-brightgreen)]
 
 
+
 Welcome to the Face Recognition Project, an end-to-end machine learning project that combines model building, training, deployment, and MLOps practices. This project showcases my abilities to create scalable, cloud-deployable production-level solutions with various tools and technologies.
 
 ## Project Overview
